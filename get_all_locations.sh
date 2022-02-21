@@ -3,9 +3,6 @@
 git_upload="$(jq '.git_upload' settings.json)"
 python3_exe="$(jq '.python3_executable' settings.json)"
 
-echo "$(date +'[%T] :') Pulling latest information from gihub repository..."
-git pull
-
 echo "$(date +'[%T] :') Starting the scraping process..."
 jq '.[].id' docs/centers.json \
   | parallel "$python3_exe scrape_availability.py {} results.json &> logs.txt || echo {} >> errors.txt"
